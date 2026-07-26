@@ -4,6 +4,19 @@ import sqlite3
 
 database= sqlite3.connect("expense.sqlite")
 cursor= database.cursor()
-cursor.execute("CREATE TABLE IF NOT EXISTS August(Expenses, Income)")
-result= database.execute("SELECT name FROM sqlite_master")
-(result.fetchone())
+cursor.execute("""
+     CREATE TABLE IF NOT EXISTS August(
+        Type TEXT,
+        Amount INTEGER
+    )
+""")
+while True:
+    type= input ("expense or income?")
+    amount= int(input ("how much?"))
+    cursor.execute("""
+        INSERT INTO August(Type, Amount) VALUES(?, ?)
+    """, (type, amount))
+    another= input ("add another?y/n")
+    database.commit()
+    if another == "n":
+        break
