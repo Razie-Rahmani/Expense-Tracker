@@ -10,6 +10,7 @@ import sqlite3
 
 database= sqlite3.connect("expense.sqlite")
 cursor= database.cursor()
+cursor.execute('DROP TABLE IF EXISTS "August"')
 cursor.execute("""
      CREATE TABLE IF NOT EXISTS "2026"(
         Type TEXT,
