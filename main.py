@@ -50,6 +50,7 @@ def add_row():
         INSERT INTO Year_2026(Type, Amount, Date) VALUES(?, ?, ?)
         """, (transaction_type, amount, transaction_date))
     database.commit()
+    print("Transaction added.")
 
 
 def edit_row():
@@ -76,3 +77,6 @@ while True:
         sort()
     elif user_request== "Show Table":
         show_table()
+    else:
+        print("Invalid request. Please select from the options.")
+        continue
