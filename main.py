@@ -3,16 +3,18 @@
 #3: Raise an input error if the user inputs anything other than "expense" or "income"
 #4: Raise an input error if the user inputs an invalid date format
 #5: Raise a type error if user inputs a non-integer amount
-#6: Sort by date and display the total expenses and income for the desired month
+#6: Fetch stored data from the database and display it in a table format
+#7: Sort by date and display the total expenses and income for the desired month
 
 from datetime import datetime as dt
 import sqlite3
+from sqlite3 import Row
 
 database= sqlite3.connect("expense.sqlite")
+database.row_factory= sqlite3.Row
 cursor= database.cursor()
-cursor.execute('DROP TABLE IF EXISTS "August"')
-cursor.execute("""
-     CREATE TABLE IF NOT EXISTS "2026"(
+cursor.execute(""" 
+    CREATE TABLE IF NOT EXISTS "2026"(
         Type TEXT,
         Amount INTEGER,
         Date TEXT
@@ -20,8 +22,8 @@ cursor.execute("""
 """)
 while True:
     while True:
-        type= input ("expense or income?")
-        if type in ("expense", "income"):
+        transaction_type= input ("expense or income?")
+        if transaction_type in ("expense", "income"):
             break
         else:
             print("Invalid input. Please enter exactly 'expense' or 'income'.")
@@ -43,7 +45,7 @@ while True:
             continue
     cursor.execute("""
         INSERT INTO "2026"(Type, Amount, Date) VALUES(?, ?, ?)
-    """, (type, amount, date))
+    """, (transaction_type, amount, date))
     another= input ("add another?y/n")
     database.commit()
     if another == "n":
